@@ -5,7 +5,7 @@ import { css } from '@codemirror/lang-css'
 import { javascript } from '@codemirror/lang-javascript'
 import { oneDark } from '@codemirror/theme-one-dark'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Play, RotateCcw, Lightbulb, Code2, FileCode, Sparkles } from 'lucide-react'
+import { Play, RotateCcw, Lightbulb, Code2, FileCode, Sparkles, Eye } from 'lucide-react'
 import confetti from 'canvas-confetti'
 import CodePreview from './CodePreview'
 
@@ -247,7 +247,7 @@ const MultiTabEditor = ({ exercise, onSuccess }) => {
       </motion.div>
 
       {/* Layout avec onglets/éditeur et preview côte à côte */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 items-end">
         <div className="space-y-2">
           {/* Onglets */}
           {tabs.length > 1 && (
@@ -275,9 +275,9 @@ const MultiTabEditor = ({ exercise, onSuccess }) => {
           {/* Éditeur */}
           <motion.div
             layout
-            className="code-container overflow-hidden"
+            className="code-container overflow-hidden h-[450px] flex flex-col"
           >
-          <div className="bg-gray-800 px-4 py-2 flex items-center justify-between flex-wrap gap-2">
+          <div className="bg-gray-800 px-4 py-2 flex items-center justify-between flex-wrap gap-2 flex-shrink-0">
             <div className="flex items-center gap-2">
               <div className="w-3 h-3 rounded-full bg-red-500"></div>
               <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
@@ -307,28 +307,31 @@ const MultiTabEditor = ({ exercise, onSuccess }) => {
               </motion.button>
             </div>
           </div>
-          <CodeMirror
-            value={getCurrentCode()}
-            height="400px"
-            theme={oneDark}
-            extensions={[getLanguageExtension(tabs.find(t => t.id === activeTab)?.language || exercise.language)]}
-            onChange={(value) => setCurrentCode(value)}
-            className="text-base"
-            readOnly={activeTab === 'html' && !exercise.editableHtml}
-          />
-          {activeTab === 'html' && !exercise.editableHtml && (
-          <div className="bg-blue-900 text-blue-200 px-4 py-2 text-sm">
-            ℹ️ Ce HTML est en lecture seule. Modifie le {exercise.language === 'css' ? 'CSS' : 'JavaScript'} dans l'onglet correspondant.
+          <div className="flex-1 overflow-hidden">
+            <CodeMirror
+              value={getCurrentCode()}
+              height="100%"
+              theme={oneDark}
+              extensions={[getLanguageExtension(tabs.find(t => t.id === activeTab)?.language || exercise.language)]}
+              onChange={(value) => setCurrentCode(value)}
+              className="text-base h-full"
+              readOnly={activeTab === 'html' && !exercise.editableHtml}
+            />
           </div>
-        )}
+          {activeTab === 'html' && !exercise.editableHtml && (
+            <div className="bg-blue-900 text-blue-200 px-4 py-2 text-sm flex-shrink-0">
+              ℹ️ Ce HTML est en lecture seule. Modifie le {exercise.language === 'css' ? 'CSS' : 'JavaScript'} dans l'onglet correspondant.
+            </div>
+          )}
         </motion.div>
         </div>
 
         {/* Preview en temps réel - Toujours visible */}
-        <div className="h-full">
+        <div className="h-[450px]">
           <CodePreview 
             code={getCombinedPreviewCode()} 
             language={exercise.language === 'css' ? 'css' : exercise.language === 'javascript' ? 'javascript' : 'html'}
+            useConsole={false}
           />
         </div>
       </div>

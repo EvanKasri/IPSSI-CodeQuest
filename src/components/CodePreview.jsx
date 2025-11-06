@@ -2,7 +2,7 @@ import { motion } from 'framer-motion'
 import { Eye, Terminal, Code } from 'lucide-react'
 import { useMemo } from 'react'
 
-const CodePreview = ({ code, language }) => {
+const CodePreview = ({ code, language, useConsole = false }) => {
   // Exécution Python
   const executePython = useMemo(() => {
     if (!code) return []
@@ -99,35 +99,8 @@ const CodePreview = ({ code, language }) => {
     `
   }, [code])
 
-  // Preview CSS
-  const cssPreview = useMemo(() => {
-    if (!code) return ''
-    return `
-      <!DOCTYPE html>
-      <html>
-      <head>
-        <style>
-          body { margin: 0; padding: 1rem; font-family: sans-serif; background-color: #f9fafb; color: #1f2937; }
-          ${code}
-        </style>
-      </head>
-      <body>
-        <div class="ipssi">Bonjour IPSSI Nice ! 🎓</div>
-        <h1 class="titre">IPSSI CodeQuest</h1>
-        <div class="campus">
-          <h2>Campus IPSSI Nice</h2>
-          <p>Une école d'excellence</p>
-        </div>
-        <span class="badge">Étudiant IPSSI</span>
-        <div class="ipssi-card">
-          <h2>Formation Web</h2>
-          <p>Développement front-end et back-end</p>
-          <p><strong>📍 IPSSI Nice</strong></p>
-        </div>
-      </body>
-      </html>
-    `
-  }, [code])
+  // Pour CSS/JS, on reçoit déjà le HTML complet depuis MultiTabEditor
+  // Donc on l'utilise directement
 
   // Preview JavaScript
   const jsPreview = useMemo(() => {
@@ -210,12 +183,14 @@ const CodePreview = ({ code, language }) => {
       <motion.div
         initial={{ opacity: 0, scale: 0.98 }}
         animate={{ opacity: 1, scale: 1 }}
-        className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl p-8 text-center border-2 border-dashed border-gray-300"
+        className="bg-gradient-to-br from-gray-900 to-gray-800 rounded-2xl p-8 text-center border-2 border-gray-700 h-full flex items-center justify-center"
       >
-        <Code className="mx-auto mb-3 text-gray-400" size={48} />
-        <p className="text-gray-600 font-medium">
-          Commence à coder pour voir le résultat ici ! ✨
-        </p>
+        <div>
+          <Code className="mx-auto mb-3 text-gray-500" size={48} />
+          <p className="text-gray-400 font-medium">
+            Commence à coder pour voir le résultat ici ! ✨
+          </p>
+        </div>
       </motion.div>
     )
   }
@@ -226,14 +201,14 @@ const CodePreview = ({ code, language }) => {
       <motion.div
         initial={{ opacity: 0, scale: 0.98 }}
         animate={{ opacity: 1, scale: 1 }}
-        className="bg-gray-900 rounded-2xl p-6 font-mono text-sm shadow-xl"
+        className="bg-gray-900 rounded-2xl p-6 font-mono text-sm shadow-xl h-full flex flex-col"
       >
-        <div className="flex items-center gap-2 mb-4 pb-3 border-b border-gray-700">
+        <div className="flex items-center gap-2 mb-4 pb-3 border-b border-gray-700 flex-shrink-0">
           <Terminal size={20} className="text-green-400" />
           <span className="font-semibold text-green-400">Console Python</span>
           <span className="ml-auto text-xs text-gray-500">IPSSI CodeQuest</span>
         </div>
-        <div className="space-y-2">
+        <div className="space-y-2 flex-1 overflow-y-auto">
           {executePython.length > 0 ? (
             executePython.map((line, index) => (
               <motion.div
@@ -255,11 +230,44 @@ const CodePreview = ({ code, language }) => {
     )
   }
 
+  // JavaScript avec console (exercices simples sans HTML)
+  if (language === 'javascript' && useConsole) {
+    return (
+      <motion.div
+        initial={{ opacity: 0, scale: 0.98 }}
+        animate={{ opacity: 1, scale: 1 }}
+        className="bg-white rounded-2xl shadow-xl border-2 border-gray-200 overflow-hidden h-full flex flex-col"
+      >
+        <div className="bg-gradient-to-r from-yellow-500 to-orange-600 px-4 py-3 flex items-center justify-between flex-shrink-0">
+          <div className="flex items-center gap-2 text-white">
+            <Terminal size={18} />
+            <span className="font-semibold text-sm">Console JavaScript</span>
+          </div>
+          <span className="text-xs text-white/80">IPSSI CodeQuest</span>
+        </div>
+        <div className="bg-gray-50 p-1 flex-1">
+          <iframe
+            className="w-full h-full bg-white rounded-lg border-0"
+            title="JavaScript Console"
+            srcDoc={jsPreview}
+            sandbox="allow-scripts"
+          />
+        </div>
+      </motion.div>
+    )
+  }
+
   // HTML, CSS, JavaScript - Preview iframe
   const getSrcDoc = () => {
+    // Pour HTML simple
     if (language === 'html') return htmlPreview
-    if (language === 'css') return cssPreview
-    if (language === 'javascript') return jsPreview
+    
+    // Pour CSS et JavaScript, le code reçu est déjà le HTML complet depuis MultiTabEditor
+    // On l'utilise directement
+    if (language === 'css' || language === 'javascript') {
+      return code || '<body style="padding: 2rem; font-family: sans-serif;">Commence à coder...</body>'
+    }
+    
     return ''
   }
 
@@ -267,20 +275,18 @@ const CodePreview = ({ code, language }) => {
     <motion.div
       initial={{ opacity: 0, scale: 0.98 }}
       animate={{ opacity: 1, scale: 1 }}
-      className="bg-white rounded-2xl shadow-xl border-2 border-gray-200 overflow-hidden"
+      className="bg-white rounded-2xl shadow-xl border-2 border-gray-200 overflow-hidden h-full flex flex-col"
     >
-      <div className="bg-gradient-to-r from-blue-500 to-purple-600 px-4 py-3 flex items-center justify-between">
+      <div className="bg-gradient-to-r from-blue-500 to-purple-600 px-4 py-3 flex items-center justify-between flex-shrink-0">
         <div className="flex items-center gap-2 text-white">
           <Eye size={18} />
-          <span className="font-semibold text-sm">
-            {language === 'javascript' ? 'Console' : 'Aperçu'} en temps réel
-          </span>
+          <span className="font-semibold text-sm">Aperçu en temps réel</span>
         </div>
         <span className="text-xs text-white/80">IPSSI CodeQuest</span>
       </div>
-      <div className="bg-gray-50 p-1">
+      <div className="bg-gray-50 p-1 flex-1">
         <iframe
-          className="w-full h-[400px] bg-white rounded-lg border-0"
+          className="w-full h-full bg-white rounded-lg border-0"
           title="Live Preview"
           srcDoc={getSrcDoc()}
           sandbox="allow-scripts"

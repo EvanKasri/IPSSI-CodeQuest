@@ -217,15 +217,15 @@ const CodeEditor = ({ exercise, onSuccess }) => {
 
   return (
     <div className="space-y-4">
-      {/* Layout avec éditeur et preview côte à côte */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+      {/* Layout avec éditeur et preview côte à côté */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 items-end">
         {/* Éditeur de code */}
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="code-container overflow-hidden"
+          className="code-container overflow-hidden h-[450px] flex flex-col"
         >
-        <div className="bg-gray-800 px-4 py-2 flex items-center justify-between flex-wrap gap-2">
+        <div className="bg-gray-800 px-4 py-2 flex items-center justify-between flex-wrap gap-2 flex-shrink-0">
           <div className="flex items-center gap-2">
             <div className="w-3 h-3 rounded-full bg-red-500"></div>
             <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
@@ -255,18 +255,26 @@ const CodeEditor = ({ exercise, onSuccess }) => {
             </motion.button>
           </div>
         </div>
-        <CodeMirror
-          value={code}
-          height="300px"
-          theme={oneDark}
-          extensions={[getLanguageExtension()]}
-          onChange={(value) => setCode(value)}
-          className="text-base"
-        />
+        <div className="flex-1 overflow-hidden">
+          <CodeMirror
+            value={code}
+            height="100%"
+            theme={oneDark}
+            extensions={[getLanguageExtension()]}
+            onChange={(value) => setCode(value)}
+            className="text-base h-full"
+          />
+        </div>
         </motion.div>
 
         {/* Preview/Console en temps réel - Toujours visible */}
-        <CodePreview code={code} language={exercise.language} />
+        <div className="h-[450px]">
+          <CodePreview 
+            code={code} 
+            language={exercise.language}
+            useConsole={exercise.language === 'javascript'}
+          />
+        </div>
       </div>
 
       {/* Indice */}
