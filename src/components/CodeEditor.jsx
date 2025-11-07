@@ -49,8 +49,8 @@ const CodeEditor = ({ exercise, onSuccess }) => {
     cleanedStr = cleanedStr.replace(/\/\/.*$/gm, '')
     cleanedStr = cleanedStr.replace(/#.*$/gm, '')
     
-    // Pour Python et JavaScript, normaliser les guillemets (accepter " et ')
-    if (exercise.language === 'python' || exercise.language === 'javascript') {
+    // Pour HTML, Python et JavaScript, normaliser les guillemets (accepter " et ')
+    if (exercise.language === 'html' || exercise.language === 'python' || exercise.language === 'javascript') {
       cleanedStr = cleanedStr.replace(/"/g, "'")
     }
     
