@@ -321,9 +321,9 @@ const CodeEditor = ({ exercise, onSuccess }) => {
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="bg-purple-50 border-l-4 border-purple-500 p-4 rounded-r-lg"
+          className="bg-purple-500/10 border-l-4 border-purple-500 p-4 rounded-xl"
         >
-          <p className="text-purple-800">
+          <p className="text-purple-300">
             <strong>💡 Solution affichée !</strong> Prends le temps de bien la comprendre. L'important n'est pas de copier, mais de comprendre la logique ! À l'IPSSI, on valorise la compréhension. 🎓
           </p>
         </motion.div>

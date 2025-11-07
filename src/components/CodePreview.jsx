@@ -91,7 +91,7 @@ const CodePreview = ({ code, language, useConsole = false }) => {
       <html>
       <head>
         <style>
-          body { margin: 0; padding: 1rem; font-family: sans-serif; background-color: #f9fafb; color: #1f2937; }
+          body { margin: 0; padding: 1rem; font-family: sans-serif; background-color: #1f2937; color: #e5e7eb; }
         </style>
       </head>
       <body>${code}</body>
@@ -236,18 +236,16 @@ const CodePreview = ({ code, language, useConsole = false }) => {
       <motion.div
         initial={{ opacity: 0, scale: 0.98 }}
         animate={{ opacity: 1, scale: 1 }}
-        className="bg-white rounded-2xl shadow-xl border-2 border-gray-200 overflow-hidden h-full flex flex-col"
+        className="bg-gray-900 rounded-2xl shadow-xl border-2 border-gray-700 overflow-hidden h-full flex flex-col"
       >
-        <div className="bg-gradient-to-r from-yellow-500 to-orange-600 px-4 py-3 flex items-center justify-between flex-shrink-0">
-          <div className="flex items-center gap-2 text-white">
-            <Terminal size={18} />
-            <span className="font-semibold text-sm">Console JavaScript</span>
-          </div>
-          <span className="text-xs text-white/80">IPSSI CodeQuest</span>
+        <div className="flex items-center gap-2 mb-4 pb-3 border-b border-gray-700 p-4 flex-shrink-0">
+          <Terminal size={20} className="text-yellow-400" />
+          <span className="font-semibold text-yellow-400">Console JavaScript</span>
+          <span className="ml-auto text-xs text-gray-500">IPSSI CodeQuest</span>
         </div>
-        <div className="bg-gray-50 p-1 flex-1">
+        <div className="p-1 flex-1">
           <iframe
-            className="w-full h-full bg-white rounded-lg border-0"
+            className="w-full h-full bg-gray-800 rounded-lg border-0"
             title="JavaScript Console"
             srcDoc={jsPreview}
             sandbox="allow-scripts"
@@ -275,18 +273,16 @@ const CodePreview = ({ code, language, useConsole = false }) => {
     <motion.div
       initial={{ opacity: 0, scale: 0.98 }}
       animate={{ opacity: 1, scale: 1 }}
-      className="bg-white rounded-2xl shadow-xl border-2 border-gray-200 overflow-hidden h-full flex flex-col"
+      className="bg-gray-900 rounded-2xl shadow-xl border-2 border-gray-700 overflow-hidden h-full flex flex-col"
     >
-      <div className="bg-gradient-to-r from-blue-500 to-purple-600 px-4 py-3 flex items-center justify-between flex-shrink-0">
-        <div className="flex items-center gap-2 text-white">
-          <Eye size={18} />
-          <span className="font-semibold text-sm">Aperçu en temps réel</span>
-        </div>
-        <span className="text-xs text-white/80">IPSSI CodeQuest</span>
+      <div className="flex items-center gap-2 mb-4 pb-3 border-b border-gray-700 p-4 flex-shrink-0">
+        <Eye size={20} className="text-blue-400" />
+        <span className="font-semibold text-blue-400">Aperçu en temps réel</span>
+        <span className="ml-auto text-xs text-gray-500">IPSSI CodeQuest</span>
       </div>
-      <div className="bg-gray-50 p-1 flex-1">
+      <div className="p-1 flex-1">
         <iframe
-          className="w-full h-full bg-white rounded-lg border-0"
+          className="w-full h-full bg-gray-800 rounded-lg border-0"
           title="Live Preview"
           srcDoc={getSrcDoc()}
           sandbox="allow-scripts"

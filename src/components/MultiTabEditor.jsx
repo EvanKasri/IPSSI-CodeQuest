@@ -230,12 +230,12 @@ const MultiTabEditor = ({ exercise, onSuccess }) => {
       <motion.div
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
-        className="bg-gradient-to-r from-purple-50 to-blue-50 border border-purple-200 rounded-2xl p-4 flex items-start gap-3"
+        className="bg-purple-500/10 border border-purple-500/30 rounded-xl p-4 flex items-start gap-3"
       >
-        <Sparkles className="text-purple-500 flex-shrink-0 mt-1" size={20} />
+        <Sparkles className="text-purple-400 flex-shrink-0 mt-1" size={20} />
         <div className="flex-1">
-          <p className="text-gray-700 text-sm leading-relaxed">
-            <strong className="text-purple-700">💡 Mode guidé :</strong> {
+          <p className="text-gray-300 text-sm leading-relaxed">
+            <strong className="text-purple-400">💡 Mode guidé :</strong> {
               exercise.language === 'css' 
                 ? "Utilise l'onglet HTML pour voir la structure, puis style-la dans l'onglet CSS. La prévisualisation se met à jour en temps réel !"
                 : exercise.language === 'javascript'
