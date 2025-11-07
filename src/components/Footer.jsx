@@ -1,89 +1,75 @@
-import { Heart, Github, Linkedin, Mail } from 'lucide-react'
-import { motion } from 'framer-motion'
+import { Heart } from 'lucide-react'
+import { Link } from 'react-router-dom'
 
 const Footer = () => {
   return (
-    <footer className="bg-gradient-to-r from-ipssi-blue to-purple-600 text-white mt-20">
+    <footer className="relative mt-32 border-t border-gray-800 bg-gray-900/50 backdrop-blur-sm">
       <div className="container mx-auto px-4 py-12">
-        <div className="grid md:grid-cols-3 gap-8">
-          {/* À propos */}
-          <div>
-            <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
-              🐱‍💻 IPSSI CodeQuest
-            </h3>
-            <p className="text-blue-100 mb-4">
-              Plateforme éducative pour apprendre à coder de manière interactive et ludique.
-            </p>
-            <p className="text-sm text-blue-200">
-              Made with <Heart className="inline text-red-400" size={16} /> par les étudiants IPSSI Nice
-            </p>
-          </div>
-
-          {/* Liens rapides */}
-          <div>
-            <h3 className="text-xl font-bold mb-4">🔗 Liens rapides</h3>
-            <ul className="space-y-2 text-blue-100">
-              <li>
-                <a href="/" className="hover:text-white transition-colors">Accueil</a>
-              </li>
-              <li>
-                <a href="/courses" className="hover:text-white transition-colors">Tous les cours</a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-white transition-colors">À propos</a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-white transition-colors">Contact</a>
-              </li>
-            </ul>
-          </div>
-
-          {/* Réseaux sociaux */}
-          <div>
-            <h3 className="text-xl font-bold mb-4">🌐 Suivez-nous</h3>
-            <div className="flex gap-4">
-              <motion.a
-                href="https://github.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="bg-white/20 p-3 rounded-full hover:bg-white/30 transition-colors"
-                whileHover={{ scale: 1.1, rotate: 5 }}
-                whileTap={{ scale: 0.9 }}
-              >
-                <Github size={24} />
-              </motion.a>
-              <motion.a
-                href="https://linkedin.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="bg-white/20 p-3 rounded-full hover:bg-white/30 transition-colors"
-                whileHover={{ scale: 1.1, rotate: -5 }}
-                whileTap={{ scale: 0.9 }}
-              >
-                <Linkedin size={24} />
-              </motion.a>
-              <motion.a
-                href="mailto:contact@ipssi-codequest.fr"
-                className="bg-white/20 p-3 rounded-full hover:bg-white/30 transition-colors"
-                whileHover={{ scale: 1.1, rotate: 5 }}
-                whileTap={{ scale: 0.9 }}
-              >
-                <Mail size={24} />
-              </motion.a>
+        <div className="max-w-6xl mx-auto">
+          {/* Main content */}
+          <div className="grid md:grid-cols-3 gap-12 mb-12">
+            {/* À propos */}
+            <div>
+              <div className="flex items-center gap-3 mb-4">
+                <img 
+                  src="https://i.ibb.co/B2WDwkdY/Chat-GPT-Image-7-nov-2025-12-10-47.png" 
+                  alt="IPSSI Logo" 
+                  className="h-10 w-auto"
+                />
+              </div>
+              <p className="text-gray-400 leading-relaxed">
+                Plateforme moderne d'apprentissage du code, conçue pour les étudiants par les étudiants.
+              </p>
             </div>
-            <p className="mt-6 text-sm text-blue-200">
-              🎓 IPSSI Nice - École d'informatique
-            </p>
-          </div>
-        </div>
 
-        <div className="border-t border-white/20 mt-8 pt-6 text-center text-blue-100 text-sm">
-          <p>© 2025 IPSSI CodeQuest - Tous droits réservés</p>
-          <p className="mt-2">🚀 Version 1.0 - Projet étudiant</p>
-          {/* Easter egg caché ! */}
-          <p className="mt-4 text-xs opacity-0 hover:opacity-100 transition-opacity cursor-default">
-            🎉 Easter egg trouvé ! Coucou IPSSI Nice ! 👋
-          </p>
+            {/* Liens */}
+            <div>
+              <h4 className="font-semibold text-white mb-4">Navigation</h4>
+              <ul className="space-y-3">
+                <li>
+                  <Link to="/" className="text-gray-400 hover:text-ipssi-green transition-colors">
+                    Accueil
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/courses" className="text-gray-400 hover:text-ipssi-green transition-colors">
+                    Cours
+                  </Link>
+                </li>
+                <li>
+                  <a 
+                    href="https://ecole-ipssi.com/ecole-informatique-nice/" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="text-gray-400 hover:text-ipssi-green transition-colors"
+                  >
+                    École IPSSI Nice
+                  </a>
+                </li>
+              </ul>
+            </div>
+
+            {/* Info */}
+            <div>
+              <h4 className="font-semibold text-white mb-4">Projet étudiant</h4>
+              <p className="text-gray-400 mb-4">
+                Créé avec passion par les étudiants de l'IPSSI Nice
+              </p>
+              <div className="flex items-center gap-2 text-sm text-gray-400">
+                <span>Made with</span>
+                <Heart className="text-red-500 fill-red-500" size={16} />
+                <span>à Nice</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Bottom */}
+          <div className="pt-8 border-t border-gray-800">
+            <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-500">
+              <p>© 2025 IPSSI CodeQuest. Tous droits réservés.</p>
+              <p className="text-ipssi-green font-medium">Version 1.0</p>
+            </div>
+          </div>
         </div>
       </div>
     </footer>

@@ -22,8 +22,8 @@ body {
 /* Coucou IPSSI Nice ! 🎓 Easter egg caché dans le CSS */
 
 @layer components {
-  .btn-cartoon {
-    @apply px-6 py-3 rounded-full font-semibold text-white shadow-cartoon transition-all duration-200 hover:shadow-cartoon-hover hover:translate-y-1 active:translate-y-2 active:shadow-none;
+  .btn-modern {
+    @apply px-6 py-3 rounded-lg font-medium text-white transition-all duration-200 hover:opacity-90 active:scale-95;
   }
 
   .btn-primary {
@@ -34,12 +34,17 @@ body {
     @apply bg-green-500 hover:bg-green-600;
   }
 
-  .card-cartoon {
-    @apply bg-white rounded-3xl p-6 shadow-cartoon hover:shadow-cartoon-hover transition-all duration-300 hover:-translate-y-1;
+  .card-modern {
+    @apply bg-gray-800/50 backdrop-blur-sm rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-700/50;
   }
 
-  .mascot-bounce {
-    animation: bounce 2s ease-in-out infinite;
+  /* Legacy support */
+  .btn-cartoon {
+    @apply btn-modern;
+  }
+
+  .card-cartoon {
+    @apply card-modern;
   }
 }
 

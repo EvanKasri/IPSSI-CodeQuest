@@ -1,55 +1,61 @@
-import { Link } from 'react-router-dom'
-import { BookOpen, Home, Sparkles } from 'lucide-react'
+import { Link, useLocation } from 'react-router-dom'
+import { BookOpen, Home } from 'lucide-react'
 import { motion } from 'framer-motion'
 
 const Navbar = () => {
+  const location = useLocation()
+
+  const isActive = (path) => location.pathname === path
+
   return (
     <motion.nav 
-      className="bg-white shadow-cartoon mb-8"
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      transition={{ type: "spring", stiffness: 100 }}
+      className="sticky top-0 z-50 bg-gray-900/80 backdrop-blur-md border-b border-gray-700/50 shadow-xl mb-6"
+      initial={{ y: -100, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.3 }}
     >
-      <div className="container mx-auto px-4 py-4">
+      <div className="container mx-auto px-4 py-1">
         <div className="flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-3 group">
-            <motion.div
-              className="text-4xl"
-              animate={{ rotate: [0, 10, -10, 0] }}
-              transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}
-            >
-              🐱‍💻
-            </motion.div>
-            <div>
-              <h1 className="text-2xl font-bold text-ipssi-blue group-hover:text-blue-600 transition-colors">
-                IPSSI CodeQuest
-              </h1>
-              <p className="text-xs text-gray-500">Apprends à coder comme un pro !</p>
-            </div>
+          {/* Logo */}
+          <Link to="/" className="flex items-center group ml-4">
+            <img 
+              src="https://i.ibb.co/B2WDwkdY/Chat-GPT-Image-7-nov-2025-12-10-47.png" 
+              alt="IPSSI Logo" 
+              className="h-24 w-auto transition-all group-hover:scale-105"
+            />
           </Link>
           
-          <div className="flex items-center gap-4 md:gap-6">
-            <Link 
-              to="/" 
-              className="flex items-center gap-2 text-gray-700 hover:text-ipssi-blue transition-colors font-medium"
-            >
-              <Home size={20} />
-              <span className="hidden md:inline">Accueil</span>
+          {/* Navigation */}
+          <div className="flex items-center gap-2">
+            <Link to="/">
+              <motion.button
+                whileHover={{ y: -1 }}
+                whileTap={{ scale: 0.95 }}
+                className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all ${
+                  isActive('/') 
+                    ? 'bg-ipssi-green text-gray-900 shadow-lg shadow-ipssi-green/30 font-bold' 
+                    : 'text-gray-300 hover:bg-gray-800 hover:text-white'
+                }`}
+              >
+                <Home size={18} />
+                <span className="hidden sm:inline">Accueil</span>
+              </motion.button>
             </Link>
-            <Link 
-              to="/courses" 
-              className="flex items-center gap-2 text-gray-700 hover:text-ipssi-blue transition-colors font-medium"
-            >
-              <BookOpen size={20} />
-              <span className="hidden md:inline">Cours</span>
+            
+            <Link to="/courses">
+              <motion.button
+                whileHover={{ y: -1 }}
+                whileTap={{ scale: 0.95 }}
+                className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all ${
+                  isActive('/courses') 
+                    ? 'bg-ipssi-green text-gray-900 shadow-lg shadow-ipssi-green/30 font-bold' 
+                    : 'text-gray-300 hover:bg-gray-800 hover:text-white'
+                }`}
+              >
+                <BookOpen size={18} />
+                <span className="hidden sm:inline">Cours</span>
+              </motion.button>
             </Link>
-            <motion.div
-              animate={{ scale: [1, 1.1, 1] }}
-              transition={{ duration: 2, repeat: Infinity }}
-              className="hidden sm:block"
-            >
-              <Sparkles className="text-yellow-500" size={24} />
-            </motion.div>
           </div>
         </div>
       </div>

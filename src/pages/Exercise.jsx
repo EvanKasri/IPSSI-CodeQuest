@@ -64,7 +64,7 @@ const Exercise = () => {
           >
             ⚡
           </motion.div>
-          <p className="text-2xl text-gray-600">Chargement de l'exercice...</p>
+          <p className="text-2xl text-gray-300">Chargement de l'exercice...</p>
         </div>
       </div>
     )
@@ -84,7 +84,7 @@ const Exercise = () => {
   }
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 max-w-7xl mx-auto">
       {/* Navigation */}
       <div className="flex items-center justify-between">
         <motion.div
@@ -92,20 +92,20 @@ const Exercise = () => {
           animate={{ opacity: 1, x: 0 }}
         >
           <Link 
-            to={`/exercises/${course.id}`}
-            className="inline-flex items-center gap-2 text-gray-600 hover:text-ipssi-blue transition-colors font-medium"
+            to="/courses"
+            className="inline-flex items-center gap-2 text-gray-400 hover:text-ipssi-green transition-colors font-medium group"
           >
-            <List size={20} />
-            Voir tous les exercices
+            <ArrowLeft size={20} className="group-hover:-translate-x-1 transition-transform" />
+            Retour aux cours
           </Link>
         </motion.div>
 
         <motion.div
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
-          className="text-sm text-gray-500"
+          className="text-sm font-medium text-gray-400"
         >
-          Exercice {exercise.id} sur {course.exercises.length}
+          Exercice <span className="text-ipssi-green font-bold">{exercise.id}</span> sur {course.exercises.length}
         </motion.div>
       </div>
 
@@ -113,37 +113,51 @@ const Exercise = () => {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className={`card-cartoon ${course.color} text-white`}
+        className="relative overflow-hidden bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur-sm rounded-2xl p-8 border border-gray-700/50 shadow-2xl"
       >
-        <div className="flex items-start justify-between gap-6">
-          <div className="flex items-center gap-6">
-            <div className="text-6xl">{course.icon}</div>
-            <div className="flex-1">
-              <div className="flex items-center gap-3 mb-2">
-                <div className="inline-block bg-white/20 px-4 py-1 rounded-full text-sm font-semibold">
-                  Exercice {exercise.id}
-                </div>
-                <div className={`px-3 py-1 rounded-full ${getDifficultyColor(exercise.difficulty)} text-white text-sm font-semibold shadow-cartoon-sm`}>
-                  {exercise.difficulty}
-                </div>
-              </div>
-              <h1 className="text-3xl md:text-4xl font-bold">
-                {exercise.title}
-              </h1>
-              <p className="text-white/80 mt-2">
-                {course.language} - IPSSI CodeQuest
-              </p>
+        {/* Badge de succès */}
+        {isCompleted && (
+          <motion.div
+            initial={{ scale: 0, rotate: -180 }}
+            animate={{ scale: 1, rotate: 0 }}
+            transition={{ type: "spring", stiffness: 200 }}
+            className="absolute top-6 right-6"
+          >
+            <div className="bg-gradient-to-br from-ipssi-green to-ipssi-yellow p-3 rounded-xl shadow-lg">
+              <Check className="text-gray-900" size={32} />
             </div>
+          </motion.div>
+        )}
+
+        <div className="flex items-start gap-6">
+          {/* Icône */}
+          <div className={`w-20 h-20 rounded-2xl ${course.color} flex items-center justify-center text-4xl shadow-lg flex-shrink-0`}>
+            {course.icon}
           </div>
-          {isCompleted && (
-            <motion.div
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{ type: "spring", stiffness: 200 }}
-            >
-              <Check className="text-white bg-green-500 rounded-full p-2" size={64} />
-            </motion.div>
-          )}
+
+          {/* Contenu */}
+          <div className="flex-1">
+            <div className="flex items-center gap-3 mb-3">
+              <span className="px-4 py-1.5 bg-gray-700/50 text-gray-300 rounded-lg text-sm font-medium">
+                Exercice {exercise.id}
+              </span>
+              <span className={`px-4 py-1.5 rounded-lg text-sm font-bold text-white ${
+                exercise.difficulty === 'Facile' ? 'bg-green-500/20 text-green-400 border border-green-500/30' :
+                exercise.difficulty === 'Moyen' ? 'bg-yellow-500/20 text-yellow-400 border border-yellow-500/30' :
+                'bg-red-500/20 text-red-400 border border-red-500/30'
+              }`}>
+                {exercise.difficulty}
+              </span>
+            </div>
+            
+            <h1 className="text-3xl md:text-4xl font-bold text-white mb-2">
+              {exercise.title}
+            </h1>
+            
+            <p className="text-gray-400 font-medium">
+              {course.language} • IPSSI CodeQuest
+            </p>
+          </div>
         </div>
       </motion.div>
 
@@ -153,15 +167,17 @@ const Exercise = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.2 }}
-          className="card-cartoon bg-gradient-to-r from-blue-50 to-purple-50 border-l-4 border-ipssi-blue"
+          className="bg-gray-800/30 backdrop-blur-sm rounded-xl p-6 border-l-4 border-ipssi-green shadow-lg"
         >
           <div className="flex items-start gap-4">
-            <BookOpen className="text-ipssi-blue flex-shrink-0" size={32} />
+            <div className="p-3 bg-ipssi-green/10 rounded-xl">
+              <BookOpen className="text-ipssi-green" size={28} />
+            </div>
             <div className="flex-1">
-              <h2 className="text-2xl font-bold text-gray-800 mb-3">
-                📚 Ce que tu vas apprendre
+              <h2 className="text-xl font-bold text-white mb-3 flex items-center gap-2">
+                Ce que tu vas apprendre
               </h2>
-              <p className="text-lg text-gray-700 leading-relaxed">
+              <p className="text-gray-300 leading-relaxed">
                 {exercise.lesson}
               </p>
             </div>
@@ -174,15 +190,17 @@ const Exercise = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.3 }}
-        className="card-cartoon"
+        className="bg-gray-800/30 backdrop-blur-sm rounded-xl p-6 border-l-4 border-ipssi-yellow shadow-lg"
       >
         <div className="flex items-start gap-4">
-          <Trophy className="text-yellow-500 flex-shrink-0" size={32} />
+          <div className="p-3 bg-ipssi-yellow/10 rounded-xl">
+            <Trophy className="text-ipssi-yellow" size={28} />
+          </div>
           <div className="flex-1">
-            <h2 className="text-2xl font-bold text-gray-800 mb-3">
-              📝 Ton défi IPSSI
+            <h2 className="text-xl font-bold text-white mb-3">
+              Ton défi IPSSI
             </h2>
-            <p className="text-lg text-gray-700 leading-relaxed">
+            <p className="text-gray-300 leading-relaxed">
               {exercise.question}
             </p>
           </div>
@@ -205,69 +223,67 @@ const Exercise = () => {
       {/* Section succès */}
       {isCompleted && (
         <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ type: "spring", damping: 20 }}
-          className="card-cartoon bg-gradient-to-r from-green-400 to-green-500 text-white text-center py-12 overflow-hidden"
+          className="relative overflow-hidden bg-gradient-to-br from-ipssi-green/20 to-ipssi-yellow/20 backdrop-blur-sm rounded-2xl p-12 border-2 border-ipssi-green shadow-2xl text-center"
         >
-          <motion.div
-            animate={{ 
-              rotate: [0, 10, -10, 0],
-              scale: [1, 1.1, 1]
-            }}
-            transition={{ duration: 0.5, repeat: Infinity, repeatDelay: 1 }}
-            className="text-8xl mb-6 inline-block"
-          >
-            🏆
-          </motion.div>
-          <h2 className="text-4xl font-bold mb-4">
-            Bravo champion de l'IPSSI ! 🎉
-          </h2>
-          <p className="text-xl mb-8 max-w-2xl mx-auto">
-            Tu as réussi l'exercice {exercise.id} ! {nextExercise ? "Prêt pour le suivant ?" : "Tu as terminé tous les exercices ! 🎊"}
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            {nextExercise ? (
-              <Link to={`/exercise/${course.id}/${nextExercise.id}`}>
-                <motion.button
-                  className="bg-white text-green-600 font-bold text-lg px-8 py-4 rounded-full shadow-cartoon hover:shadow-cartoon-hover transition-all inline-flex items-center gap-3"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  Exercice suivant
-                  <ArrowRight size={20} />
-                </motion.button>
-              </Link>
-            ) : (
-              <Link to="/courses">
-                <motion.button
-                  className="bg-white text-green-600 font-bold text-lg px-8 py-4 rounded-full shadow-cartoon hover:shadow-cartoon-hover transition-all"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  🎓 Explorer d'autres cours
-                </motion.button>
-              </Link>
-            )}
-            <Link to={`/exercises/${course.id}`}>
-              <motion.button
-                className="bg-white/20 backdrop-blur text-white font-bold text-lg px-8 py-4 rounded-full border-2 border-white hover:bg-white/30 transition-all inline-flex items-center gap-2"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <List size={20} />
-                Tous les exercices
-              </motion.button>
-            </Link>
-            <motion.button
-              onClick={handleRetry}
-              className="bg-white/20 backdrop-blur text-white font-bold text-lg px-8 py-4 rounded-full border-2 border-white hover:bg-white/30 transition-all inline-flex items-center gap-2"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+          {/* Décorations */}
+          <div className="absolute top-0 right-0 w-64 h-64 bg-ipssi-green/10 rounded-full blur-3xl" />
+          <div className="absolute bottom-0 left-0 w-64 h-64 bg-ipssi-yellow/10 rounded-full blur-3xl" />
+          
+          <div className="relative z-10">
+            <motion.div
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ type: "spring", delay: 0.2 }}
+              className="text-7xl mb-6"
             >
-              <RefreshCcw size={20} />
-              Refaire
-            </motion.button>
+              🏆
+            </motion.div>
+            
+            <h2 className="text-4xl font-bold text-white mb-4">
+              Bravo champion de l'IPSSI !
+            </h2>
+            
+            <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
+              Tu as réussi l'exercice {exercise.id} ! {nextExercise ? "Prêt pour le suivant ?" : "Tu as terminé tous les exercices ! 🎊"}
+            </p>
+            
+            <div className="flex flex-wrap gap-4 justify-center">
+              {nextExercise ? (
+                <Link to={`/exercise/${course.id}/${nextExercise.id}`}>
+                  <motion.button
+                    className="bg-gradient-to-r from-ipssi-green to-ipssi-yellow text-gray-900 font-bold text-lg px-8 py-4 rounded-xl shadow-lg hover:shadow-xl transition-all inline-flex items-center gap-3"
+                    whileHover={{ y: -2 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    Exercice suivant
+                    <ArrowRight size={20} />
+                  </motion.button>
+                </Link>
+              ) : (
+                <Link to="/courses">
+                  <motion.button
+                    className="bg-gradient-to-r from-ipssi-green to-ipssi-yellow text-gray-900 font-bold text-lg px-8 py-4 rounded-xl shadow-lg hover:shadow-xl transition-all"
+                    whileHover={{ y: -2 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    Explorer d'autres cours
+                  </motion.button>
+                </Link>
+              )}
+              
+              <motion.button
+                onClick={handleRetry}
+                className="bg-gray-800 text-white font-bold text-lg px-8 py-4 rounded-xl border-2 border-gray-700 hover:border-ipssi-green transition-all inline-flex items-center gap-2"
+                whileHover={{ y: -2 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                <RefreshCcw size={20} />
+                Refaire
+              </motion.button>
+            </div>
           </div>
         </motion.div>
       )}
@@ -277,18 +293,33 @@ const Exercise = () => {
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          className="bg-blue-50 border-l-4 border-ipssi-blue p-6 rounded-r-2xl"
+          className="bg-gradient-to-r from-purple-500/10 to-pink-500/10 backdrop-blur-sm border-l-4 border-purple-500 p-6 rounded-xl"
         >
-          <h3 className="font-bold text-lg mb-2 flex items-center gap-2">
+          <h3 className="font-bold text-lg mb-4 flex items-center gap-2 text-white">
             <span className="text-2xl">💡</span>
             Conseils de ton prof à l'IPSSI Nice
           </h3>
-          <ul className="space-y-2 text-gray-700">
-            <li>• Lis bien l'énoncé avant de commencer à coder</li>
-            <li>• N'hésite pas à utiliser l'indice si tu es bloqué (💡)</li>
-            <li>• Vérifie bien ta syntaxe : majuscules, espaces, ponctuation</li>
-            <li>• Le bouton ↻ te permet de tout réinitialiser</li>
-            <li>• Prends ton temps, c'est en pratiquant qu'on devient expert ! 🚀</li>
+          <ul className="space-y-3 text-gray-300">
+            <li className="flex items-start gap-2">
+              <span className="text-purple-400 mt-0.5">→</span>
+              <span>Lis bien l'énoncé avant de commencer à coder</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="text-purple-400 mt-0.5">→</span>
+              <span>N'hésite pas à utiliser l'indice si tu es bloqué</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="text-purple-400 mt-0.5">→</span>
+              <span>Vérifie bien ta syntaxe : majuscules, espaces, ponctuation</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="text-purple-400 mt-0.5">→</span>
+              <span>Le bouton de réinitialisation te permet de tout recommencer</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="text-purple-400 mt-0.5">→</span>
+              <span>Prends ton temps, c'est en pratiquant qu'on devient expert !</span>
+            </li>
           </ul>
         </motion.div>
       )}
@@ -297,25 +328,25 @@ const Exercise = () => {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        className="card-cartoon bg-gradient-to-r from-gray-50 to-gray-100"
+        className="bg-gray-800/30 backdrop-blur-sm rounded-xl p-6 border border-gray-700/50"
       >
         <div className="flex items-center justify-between mb-4">
-          <h3 className="text-lg font-bold text-gray-800">
-            📊 Ta progression dans {course.language}
+          <h3 className="text-lg font-bold text-white">
+            Ta progression dans {course.language}
           </h3>
-          <span className="text-2xl font-bold text-ipssi-blue">
+          <span className="text-2xl font-bold bg-gradient-to-r from-ipssi-green to-ipssi-yellow bg-clip-text text-transparent">
             {exercise.id}/{course.exercises.length}
           </span>
         </div>
-        <div className="w-full bg-gray-200 rounded-full h-4 overflow-hidden">
+        <div className="w-full bg-gray-700/50 rounded-full h-3 overflow-hidden">
           <motion.div
             initial={{ width: 0 }}
             animate={{ width: `${(exercise.id / course.exercises.length) * 100}%` }}
             transition={{ duration: 1, ease: "easeOut" }}
-            className={`h-full ${course.color} rounded-full`}
+            className="h-full bg-gradient-to-r from-ipssi-green to-ipssi-yellow rounded-full"
           />
         </div>
-        <p className="text-sm text-gray-600 mt-2 text-center">
+        <p className="text-sm text-gray-400 mt-3 text-center">
           Continue comme ça ! Tu es sur la bonne voie pour maîtriser {course.language} ! 💪
         </p>
       </motion.div>

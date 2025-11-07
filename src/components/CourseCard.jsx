@@ -5,21 +5,16 @@ import { motion } from 'framer-motion'
 const CourseCard = ({ course, index }) => {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 50 }}
+      initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: index * 0.1, type: "spring" }}
-      whileHover={{ y: -8 }}
+      transition={{ delay: index * 0.05, duration: 0.4 }}
+      whileHover={{ y: -4 }}
       className="relative"
     >
       <div className={`card-cartoon ${course.color} overflow-hidden relative`}>
         {/* Badge étoile */}
         <div className="absolute top-4 right-4">
-          <motion.div
-            animate={{ rotate: [0, 20, 0] }}
-            transition={{ duration: 2, repeat: Infinity }}
-          >
-            <Star className="text-yellow-300 fill-yellow-300" size={24} />
-          </motion.div>
+          <Star className="text-yellow-300 fill-yellow-300" size={24} />
         </div>
 
         {/* Icône du langage */}
@@ -42,8 +37,9 @@ const CourseCard = ({ course, index }) => {
         <Link to={`/course/${course.id}`}>
           <motion.button
             className="w-full bg-white text-gray-800 font-semibold py-3 px-6 rounded-full flex items-center justify-center gap-2 hover:bg-gray-100 transition-colors shadow-cartoon-sm"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
+            whileHover={{ x: 2 }}
+            whileTap={{ scale: 0.98 }}
+            transition={{ duration: 0.2 }}
           >
             Commencer le cours
             <ArrowRight size={20} />

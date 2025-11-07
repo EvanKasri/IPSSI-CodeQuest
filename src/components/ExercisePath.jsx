@@ -33,8 +33,9 @@ const ExercisePath = ({ course }) => {
     <div className="relative py-12">
       {/* En-tête */}
       <motion.div
-        initial={{ opacity: 0, y: -20 }}
+        initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
         className="text-center mb-12"
       >
         <div className="text-6xl mb-4">{course.icon}</div>
@@ -42,7 +43,7 @@ const ExercisePath = ({ course }) => {
           Ton parcours <span className={`${course.color} bg-clip-text text-transparent`}>{course.language}</span>
         </h2>
         <p className="text-xl text-gray-600">
-          {course.exercises.length} exercices pour maîtriser {course.language} à l'IPSSI Nice ! 🎓
+          {course.exercises.length} exercices pour maîtriser {course.language} à l'IPSSI Nice
         </p>
       </motion.div>
 
@@ -54,9 +55,9 @@ const ExercisePath = ({ course }) => {
           return (
             <motion.div
               key={exercise.id}
-              initial={{ opacity: 0, x: isEven ? -100 : 100 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: index * 0.1 }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.05, duration: 0.4 }}
               className={`relative mb-12 ${isEven ? 'text-left' : 'text-right'}`}
             >
               {/* Ligne de connexion */}
@@ -66,12 +67,11 @@ const ExercisePath = ({ course }) => {
 
               <div className={`flex items-center gap-8 ${isEven ? 'flex-row' : 'flex-row-reverse'}`}>
                 {/* Numéro de l'exercice (cercle) */}
-                <motion.div
-                  whileHover={{ scale: 1.1, rotate: 5 }}
+                <div
                   className={`flex-shrink-0 w-20 h-20 rounded-full ${course.color} flex items-center justify-center shadow-cartoon relative z-10`}
                 >
                   <span className="text-3xl font-bold text-white">{exercise.id}</span>
-                </motion.div>
+                </div>
 
                 {/* Carte d'exercice */}
                 <Link 
@@ -79,8 +79,9 @@ const ExercisePath = ({ course }) => {
                   className="flex-1"
                 >
                   <motion.div
-                    whileHover={{ y: -5, scale: 1.02 }}
+                    whileHover={{ y: -2 }}
                     whileTap={{ scale: 0.98 }}
+                    transition={{ duration: 0.2 }}
                     className="card-cartoon bg-white hover:shadow-xl transition-all cursor-pointer"
                   >
                     <div className="flex items-start justify-between mb-3">
@@ -105,13 +106,10 @@ const ExercisePath = ({ course }) => {
                           {exercise.language.toUpperCase()}
                         </span>
                       </div>
-                      <motion.div
-                        className="flex items-center gap-2 text-ipssi-blue font-semibold"
-                        whileHover={{ x: 5 }}
-                      >
+                      <div className="flex items-center gap-2 text-ipssi-blue font-semibold">
                         <Play size={20} />
                         <span>Commencer</span>
-                      </motion.div>
+                      </div>
                     </div>
                   </motion.div>
                 </Link>
@@ -123,9 +121,9 @@ const ExercisePath = ({ course }) => {
 
       {/* Badge de fin */}
       <motion.div
-        initial={{ opacity: 0, scale: 0 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ delay: course.exercises.length * 0.1 + 0.2 }}
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: course.exercises.length * 0.05 + 0.3, duration: 0.5 }}
         className="flex justify-center mt-12"
       >
         <div className="card-cartoon bg-gradient-to-r from-yellow-400 to-orange-400 text-white text-center px-12 py-8">
@@ -135,7 +133,7 @@ const ExercisePath = ({ course }) => {
             Complète tous les exercices et deviens un expert {course.language} !
           </p>
           <div className="mt-4 text-sm opacity-90">
-            💪 Challenge IPSSI Nice
+            Challenge IPSSI Nice
           </div>
         </div>
       </motion.div>

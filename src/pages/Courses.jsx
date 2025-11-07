@@ -1,118 +1,137 @@
 import { useState, useEffect } from 'react'
-import { motion } from 'framer-motion'
-import CourseCard from '../components/CourseCard'
-import { Search, Filter, BookOpen } from 'lucide-react'
+import { Link } from 'react-router-dom'
+import { motion, AnimatePresence } from 'framer-motion'
+import { ChevronDown, Play, Award } from 'lucide-react'
 import coursesData from '../data/courses.json'
 
 const Courses = () => {
   const [courses, setCourses] = useState([])
-  const [searchTerm, setSearchTerm] = useState('')
-  const [filteredCourses, setFilteredCourses] = useState([])
+  const [expandedCourse, setExpandedCourse] = useState(null)
 
   useEffect(() => {
     setCourses(coursesData)
-    setFilteredCourses(coursesData)
   }, [])
 
-  useEffect(() => {
-    const filtered = courses.filter(course =>
-      course.language.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      course.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      course.description.toLowerCase().includes(searchTerm.toLowerCase())
-    )
-    setFilteredCourses(filtered)
-  }, [searchTerm, courses])
+  const getDifficultyColor = (difficulty) => {
+    switch (difficulty) {
+      case 'Facile': return 'bg-green-100 text-green-700'
+      case 'Moyen': return 'bg-yellow-100 text-yellow-700'
+      case 'Difficile': return 'bg-red-100 text-red-700'
+      default: return 'bg-gray-100 text-gray-700'
+    }
+  }
 
   return (
-    <div className="space-y-12">
+    <div className="max-w-6xl mx-auto space-y-10">
       {/* Header */}
       <motion.div
-        initial={{ opacity: 0, y: -20 }}
+        initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="text-center space-y-4"
+        className="text-center space-y-3"
       >
-        <motion.div
-          animate={{ rotate: [0, 10, -10, 0] }}
-          transition={{ duration: 2, repeat: Infinity }}
-          className="text-6xl inline-block"
-        >
-          📚
-        </motion.div>
-        <h1 className="text-5xl font-bold text-gray-800">
-          Tous les <span className="text-ipssi-blue">cours</span>
+        <h1 className="text-4xl md:text-5xl font-bold text-white">
+          Choisissez un cours
         </h1>
-        <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-          Choisis un langage et commence ton apprentissage ! Chaque cours contient des explications détaillées et des exercices pratiques. 🚀
+        <p className="text-lg text-gray-400 max-w-2xl mx-auto">
+          Sélectionnez un langage et accédez directement aux exercices pratiques
         </p>
       </motion.div>
 
-      {/* Barre de recherche */}
-      <motion.div
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 1, scale: 1 }}
-        className="max-w-2xl mx-auto"
-      >
-        <div className="relative">
-          <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" size={24} />
-          <input
-            type="text"
-            placeholder="Rechercher un cours... (HTML, CSS, Python...)"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full pl-14 pr-4 py-4 rounded-full border-4 border-gray-200 focus:border-ipssi-blue outline-none text-lg shadow-cartoon"
-          />
-        </div>
-      </motion.div>
+      {/* Liste des cours */}
+      <div className="space-y-4">
+        {courses.map((course, index) => (
+          <motion.div
+            key={course.id}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: index * 0.05 }}
+            className="card-modern"
+          >
+            {/* En-tête du cours */}
+            <button
+              onClick={() => setExpandedCourse(expandedCourse === course.id ? null : course.id)}
+              className="w-full flex items-center justify-between hover:opacity-80 transition-opacity"
+            >
+              <div className="flex items-center gap-4">
+                <div className={`w-16 h-16 rounded-xl ${course.color} flex items-center justify-center text-3xl shadow-md`}>
+                  {course.icon}
+                </div>
+                <div className="text-left">
+                  <h2 className="text-2xl font-bold text-white">{course.language}</h2>
+                  <p className="text-gray-400">{course.exercises.length} exercices disponibles</p>
+                </div>
+              </div>
+              <motion.div
+                animate={{ rotate: expandedCourse === course.id ? 180 : 0 }}
+                transition={{ duration: 0.3 }}
+              >
+                <ChevronDown size={28} className="text-gray-500" />
+              </motion.div>
+            </button>
 
-      {/* Statistiques */}
-      <div className="flex flex-wrap justify-center gap-4">
-        <motion.div
-          whileHover={{ scale: 1.05 }}
-          className="bg-white px-6 py-3 rounded-full shadow-cartoon-sm flex items-center gap-2"
-        >
-          <BookOpen className="text-ipssi-blue" size={20} />
-          <span className="font-semibold">{filteredCourses.length} cours disponibles</span>
-        </motion.div>
-        <motion.div
-          whileHover={{ scale: 1.05 }}
-          className="bg-white px-6 py-3 rounded-full shadow-cartoon-sm flex items-center gap-2"
-        >
-          <Filter className="text-green-500" size={20} />
-          <span className="font-semibold">Tous niveaux</span>
-        </motion.div>
+            {/* Liste des exercices (expandable) */}
+            <AnimatePresence>
+              {expandedCourse === course.id && (
+                <motion.div
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: 'auto', opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  transition={{ duration: 0.3 }}
+                  className="overflow-hidden"
+                >
+                  <div className="mt-6 pt-6 border-t border-gray-700 space-y-6">
+                    {course.exercises.map((exercise) => (
+                      <Link
+                        key={exercise.id}
+                        to={`/exercise/${course.id}/${exercise.id}`}
+                      >
+                        <motion.div
+                          whileHover={{ y: -2 }}
+                          className="flex items-center justify-between p-5 rounded-lg border border-gray-700 hover:border-ipssi-green hover:bg-gray-800/30 transition-all group"
+                        >
+                          <div className="flex items-center gap-4 flex-1">
+                            <div className={`w-10 h-10 rounded-full ${course.color} flex items-center justify-center font-bold text-white text-sm shadow-sm`}>
+                              {exercise.id}
+                            </div>
+                            <div className="flex-1">
+                              <h3 className="font-semibold text-white group-hover:text-ipssi-green transition-colors">
+                                {exercise.title}
+                              </h3>
+                              <p className="text-sm text-gray-400 line-clamp-1">
+                                {exercise.question}
+                              </p>
+                            </div>
+                          </div>
+                          <div className="flex items-center gap-3">
+                            <span className={`px-3 py-1 rounded-full text-xs font-medium ${getDifficultyColor(exercise.difficulty)}`}>
+                              {exercise.difficulty}
+                            </span>
+                            <Play size={20} className="text-ipssi-green" />
+                          </div>
+                        </motion.div>
+                      </Link>
+                    ))}
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </motion.div>
+        ))}
       </div>
 
-      {/* Grille des cours */}
-      {filteredCourses.length > 0 ? (
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredCourses.map((course, index) => (
-            <CourseCard key={course.id} course={course} index={index} />
-          ))}
-        </div>
-      ) : (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          className="text-center py-20"
-        >
-          <div className="text-6xl mb-4">🔍</div>
-          <p className="text-2xl text-gray-600">Aucun cours trouvé...</p>
-          <p className="text-gray-500 mt-2">Essaye une autre recherche !</p>
-        </motion.div>
-      )}
-
-      {/* Section encouragement */}
+      {/* Call to action */}
       <motion.div
         initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
-        className="card-cartoon bg-gradient-to-r from-purple-400 to-pink-400 text-white text-center py-12 mt-16"
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.5 }}
+        className="card-modern bg-gradient-to-r from-ipssi-green to-ipssi-yellow text-gray-900 text-center py-8"
       >
-        <h2 className="text-3xl font-bold mb-4">
-          💪 Continue comme ça, champion !
+        <Award size={48} className="mx-auto mb-4" />
+        <h2 className="text-2xl font-bold mb-2">
+          Prêt à progresser ?
         </h2>
-        <p className="text-lg max-w-2xl mx-auto">
-          Chaque cours que tu commences te rapproche de ton objectif. N'oublie pas : la pratique rend parfait ! 🎯
+        <p className="text-gray-800">
+          Chaque exercice complété te rapproche de la maîtrise du code
         </p>
       </motion.div>
     </div>
