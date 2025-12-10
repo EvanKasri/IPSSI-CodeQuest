@@ -56,7 +56,8 @@ const Home = () => {
       name: "PHP", 
       icon: <FileCode size={32} />, 
       description: "Backend", 
-      available: false 
+      available: true,
+      isNew: true 
     }
   ]
 
@@ -198,10 +199,15 @@ const Home = () => {
                         : 'border-gray-800 opacity-70'
                       }
                     `}>
-                      {/* Badge "Bientôt" pour PHP */}
+                      {/* Badge "Bientôt" ou "Nouveau" */}
                       {!lang.available && (
                         <div className="absolute -top-2 -right-2 bg-gradient-to-r from-ipssi-yellow to-ipssi-green text-gray-900 text-xs font-bold px-3 py-1 rounded-full shadow-lg">
                           Bientôt
+                        </div>
+                      )}
+                      {lang.isNew && lang.available && (
+                        <div className="absolute -top-2 -right-2 bg-gradient-to-r from-ipssi-green to-ipssi-lime text-gray-900 text-xs font-bold px-3 py-1 rounded-full shadow-lg animate-pulse">
+                          Nouveau
                         </div>
                       )}
                       

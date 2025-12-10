@@ -312,5 +312,120 @@
         "useMultiTab": false
       }
     ]
+  },
+  {
+    "id": "php-basics",
+    "language": "PHP",
+    "icon": "🐘",
+    "color": "bg-purple-400",
+    "title": "Apprends le PHP",
+    "description": "PHP est LE langage du backend web ! Apprends à créer des sites dynamiques côté serveur.",
+    "content": "<div class='space-y-4'><h1 class='text-3xl font-bold text-ipssi-blue mb-4'>🐘 PHP : Le roi du backend</h1><p class='text-lg'>PHP (Hypertext Preprocessor) est le langage serveur le plus utilisé au monde ! Il permet de créer des sites <strong>dynamiques</strong> et des applications web puissantes.</p><h2 class='text-2xl font-semibold mt-6 mb-3'>🔧 Les bases du PHP</h2><ul class='list-disc list-inside space-y-2'><li><code class='bg-gray-200 px-2 py-1 rounded'><?php ?></code> : Balises PHP</li><li><code class='bg-gray-200 px-2 py-1 rounded'>echo</code> : Afficher du texte</li><li><code class='bg-gray-200 px-2 py-1 rounded'>$variable</code> : Déclarer une variable</li><li><code class='bg-gray-200 px-2 py-1 rounded'>function</code> : Créer une fonction</li><li><code class='bg-gray-200 px-2 py-1 rounded'>if/else</code> : Conditions</li></ul><div class='bg-purple-50 border-l-4 border-purple-400 p-4 mt-6'><p class='font-semibold'>💎 PHP à l'IPSSI</p><p>PHP est utilisé par WordPress, Facebook, Wikipedia... C'est un langage incontournable qu'on enseigne à l'IPSSI Nice pour devenir développeur web !</p></div></div>",
+    "exercises": [
+      {
+        "id": 1,
+        "title": "Hello PHP",
+        "difficulty": "Facile",
+        "lesson": "En PHP, on commence toujours par <?php pour ouvrir un bloc PHP. Ensuite, echo permet d'afficher du texte. Important : chaque instruction se termine par un point-virgule ; Les chaînes de caractères sont entre guillemets simples 'texte' ou doubles \"texte\". C'est la base du PHP à l'IPSSI !",
+        "question": "Utilise echo pour afficher 'Hello IPSSI Nice' entre les balises PHP.",
+        "initialCode": "<?php\n\n?>",
+        "solution": "<?php\necho 'Hello IPSSI Nice';\n?>",
+        "hint": "N'oublie pas le point-virgule à la fin ! echo 'texte';",
+        "language": "php",
+        "supportsPreview": false,
+        "useMultiTab": false
+      },
+      {
+        "id": 2,
+        "title": "Première variable PHP",
+        "difficulty": "Facile",
+        "lesson": "En PHP, toutes les variables commencent par un dollar $. Syntaxe : $nomVariable = 'valeur'; Tu peux ensuite afficher la variable avec echo $nomVariable; Les variables PHP sont sensibles à la casse : $nom et $Nom sont différentes ! À l'IPSSI, on insiste sur cette particularité du PHP.",
+        "question": "Crée une variable $ecole avec la valeur 'IPSSI Nice' et affiche-la avec echo.",
+        "initialCode": "<?php\n\n?>",
+        "solution": "<?php\n$ecole = 'IPSSI Nice';\necho $ecole;\n?>",
+        "hint": "Les variables PHP commencent par $ : $nomVariable = 'valeur';",
+        "language": "php",
+        "supportsPreview": false,
+        "useMultiTab": false
+      },
+      {
+        "id": 3,
+        "title": "Concaténation de chaînes",
+        "difficulty": "Facile",
+        "lesson": "En PHP, on assemble (concatène) des chaînes avec le point . (pas le +). Exemple : echo 'Bonjour' . ' ' . 'tout le monde'; affichera 'Bonjour tout le monde'. Tu peux aussi concaténer des variables : echo 'Je suis à ' . $ville; C'est très utilisé à l'IPSSI pour créer des messages dynamiques !",
+        "question": "Crée une variable $ville = 'Nice' et affiche 'Bienvenue à l\\'IPSSI ' suivi de la variable $ville avec concaténation.",
+        "initialCode": "<?php\n\n?>",
+        "solution": "<?php\n$ville = 'Nice';\necho 'Bienvenue à l\\'IPSSI ' . $ville;\n?>",
+        "hint": "Utilise le point . pour concaténer : echo 'texte' . $variable;",
+        "language": "php",
+        "supportsPreview": false,
+        "useMultiTab": false
+      },
+      {
+        "id": 4,
+        "title": "Calculs en PHP",
+        "difficulty": "Moyen",
+        "lesson": "PHP excelle dans les calculs ! Les opérateurs sont : + (addition), - (soustraction), * (multiplication), / (division). Tu peux stocker le résultat dans une variable : $resultat = $a + $b; ou l'afficher directement : echo $a + $b; C'est parfait pour créer des calculatrices ou gérer des prix dans une boutique en ligne à l'IPSSI !",
+        "question": "Crée deux variables $prix1 = 50 et $prix2 = 30, calcule leur somme dans une variable $total, puis affiche-la.",
+        "initialCode": "<?php\n\n?>",
+        "solution": "<?php\n$prix1 = 50;\n$prix2 = 30;\n$total = $prix1 + $prix2;\necho $total;\n?>",
+        "hint": "Crée les variables, calcule la somme, puis affiche le résultat.",
+        "language": "php",
+        "supportsPreview": false,
+        "useMultiTab": false
+      },
+      {
+        "id": 5,
+        "title": "Première fonction PHP",
+        "difficulty": "Moyen",
+        "lesson": "En PHP, on crée une fonction avec function nomFonction() { code }. Les accolades {} délimitent le code de la fonction. Pour retourner une valeur, utilise return. Appeler une fonction : nomFonction(); Les fonctions permettent de réutiliser du code, c'est essentiel pour un code propre à l'IPSSI !",
+        "question": "Crée une fonction 'saluer' qui retourne 'Bienvenue à l\\'IPSSI Nice !', puis appelle-la et affiche le résultat avec echo.",
+        "initialCode": "<?php\n\n?>",
+        "solution": "<?php\nfunction saluer() {\n    return 'Bienvenue à l\\'IPSSI Nice !';\n}\necho saluer();\n?>",
+        "hint": "function nomFonction() { return 'valeur'; } puis echo nomFonction();",
+        "language": "php",
+        "supportsPreview": false,
+        "useMultiTab": false
+      },
+      {
+        "id": 6,
+        "title": "Fonction avec paramètres",
+        "difficulty": "Moyen",
+        "lesson": "Les fonctions PHP peuvent recevoir des paramètres : function calcul($a, $b) { }. Les paramètres sont comme des variables locales à la fonction. Tu peux en avoir autant que tu veux ! Important : dans la fonction, utilise bien $a et $b avec le $. C'est super pour créer des fonctions réutilisables à l'IPSSI !",
+        "question": "Crée une fonction 'multiplier' qui prend deux paramètres $a et $b et retourne leur produit. Appelle-la avec 7 et 8, et affiche le résultat.",
+        "initialCode": "<?php\n\n?>",
+        "solution": "<?php\nfunction multiplier($a, $b) {\n    return $a * $b;\n}\necho multiplier(7, 8);\n?>",
+        "hint": "function nomFonction($param1, $param2) { return $param1 * $param2; }",
+        "language": "php",
+        "supportsPreview": false,
+        "useMultiTab": false
+      },
+      {
+        "id": 7,
+        "title": "Condition if en PHP",
+        "difficulty": "Difficile",
+        "lesson": "Les conditions en PHP : if ($condition) { code }. Les opérateurs de comparaison : == (égal), != (différent), > (supérieur), < (inférieur), >= (supérieur ou égal), <= (inférieur ou égal). Important : if ($age >= 18) vérifie si l'âge est supérieur ou égal à 18. Les conditions sont essentielles dans tout projet à l'IPSSI !",
+        "question": "Crée une variable $age = 20. Si $age est supérieur ou égal à 18, affiche 'Majeur', sinon affiche 'Mineur'.",
+        "initialCode": "<?php\n\n?>",
+        "solution": "<?php\n$age = 20;\nif ($age >= 18) {\n    echo 'Majeur';\n} else {\n    echo 'Mineur';\n}\n?>",
+        "hint": "if ($condition) { echo 'texte1'; } else { echo 'texte2'; }",
+        "language": "php",
+        "supportsPreview": false,
+        "useMultiTab": false
+      },
+      {
+        "id": 8,
+        "title": "Tableau PHP (array)",
+        "difficulty": "Difficile",
+        "lesson": "Les tableaux (arrays) permettent de stocker plusieurs valeurs : $tableau = array('val1', 'val2'); ou avec la syntaxe courte : $tableau = ['val1', 'val2']; Pour accéder à un élément : $tableau[0] (l'index commence à 0). Pour afficher un tableau, utilise print_r($tableau); C'est ultra-utilisé dans les projets PHP à l'IPSSI !",
+        "question": "Crée un tableau $langages contenant 'HTML', 'CSS', 'JavaScript' et 'PHP'. Affiche le deuxième élément (CSS) avec echo.",
+        "initialCode": "<?php\n\n?>",
+        "solution": "<?php\n$langages = ['HTML', 'CSS', 'JavaScript', 'PHP'];\necho $langages[1];\n?>",
+        "hint": "Les index commencent à 0 : [0]=HTML, [1]=CSS, [2]=JavaScript, [3]=PHP",
+        "language": "php",
+        "supportsPreview": false,
+        "useMultiTab": false
+      }
+    ]
   }
 ]

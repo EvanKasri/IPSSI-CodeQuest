@@ -4,6 +4,7 @@ import { html } from '@codemirror/lang-html'
 import { css } from '@codemirror/lang-css'
 import { javascript } from '@codemirror/lang-javascript'
 import { python } from '@codemirror/lang-python'
+import { php } from '@codemirror/lang-php'
 import { oneDark } from '@codemirror/theme-one-dark'
 import { motion } from 'framer-motion'
 import { Play, RotateCcw, Lightbulb, Eye } from 'lucide-react'
@@ -35,6 +36,8 @@ const CodeEditor = ({ exercise, onSuccess }) => {
         return javascript()
       case 'python':
         return python()
+      case 'php':
+        return php()
       default:
         return javascript()
     }
@@ -49,8 +52,8 @@ const CodeEditor = ({ exercise, onSuccess }) => {
     cleanedStr = cleanedStr.replace(/\/\/.*$/gm, '')
     cleanedStr = cleanedStr.replace(/#.*$/gm, '')
     
-    // Pour HTML, Python et JavaScript, normaliser les guillemets (accepter " et ')
-    if (exercise.language === 'html' || exercise.language === 'python' || exercise.language === 'javascript') {
+    // Pour HTML, Python, JavaScript et PHP, normaliser les guillemets (accepter " et ')
+    if (exercise.language === 'html' || exercise.language === 'python' || exercise.language === 'javascript' || exercise.language === 'php') {
       cleanedStr = cleanedStr.replace(/"/g, "'")
     }
     
@@ -160,6 +163,46 @@ const CodeEditor = ({ exercise, onSuccess }) => {
       if (solution.includes('def ') && userCode.includes('def ') && 
           !userCode.match(/def.*:\n\s{2,}/)) {
         errors.push('❌ N\'oublie pas l\'indentation (4 espaces) après la définition de fonction !')
+      }
+    } else if (exercise.language === 'php') {
+      // Vérifier les balises PHP
+      if (!userCode.includes('<?php')) {
+        errors.push('❌ Tu dois commencer par <?php pour ouvrir un bloc PHP')
+      }
+
+      // Vérifier echo
+      if (solution.includes('echo') && !userCode.includes('echo')) {
+        errors.push('❌ Tu dois utiliser echo pour afficher du texte en PHP')
+      }
+
+      // Vérifier les variables
+      if (solution.includes('$') && !userCode.includes('$')) {
+        errors.push('❌ Les variables PHP commencent par $ (dollar)')
+      }
+
+      // Vérifier les point-virgules
+      if (solution.includes(';') && !userCode.includes(';')) {
+        errors.push('❌ N\'oublie pas le point-virgule ; à la fin de chaque instruction PHP')
+      }
+
+      // Vérifier function
+      if (solution.includes('function ') && !userCode.includes('function ')) {
+        errors.push('❌ Tu dois créer une fonction avec "function"')
+      }
+
+      // Vérifier les accolades
+      if (solution.includes('function') && (!userCode.includes('{') || !userCode.includes('}'))) {
+        errors.push('❌ N\'oublie pas les accolades { } pour délimiter ta fonction')
+      }
+
+      // Vérifier return
+      if (solution.includes('return') && !userCode.includes('return')) {
+        errors.push('❌ Ta fonction doit retourner une valeur avec "return"')
+      }
+
+      // Vérifier if
+      if (solution.includes('if') && !userCode.includes('if')) {
+        errors.push('❌ Tu dois utiliser une condition "if"')
       }
     }
 
@@ -300,7 +343,7 @@ const CodeEditor = ({ exercise, onSuccess }) => {
           whileTap={{ scale: 0.98 }}
         >
           <Play size={20} />
-          {exercise.language === 'python' ? 'Valider mon code' : 'Exécuter le code'}
+          {(exercise.language === 'python' || exercise.language === 'php') ? 'Valider mon code' : 'Exécuter le code'}
         </motion.button>
 
         {!showSolution && (
